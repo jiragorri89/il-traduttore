@@ -9,57 +9,101 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#FAFAF8">
+<link rel="icon" href="icon-192.png">
+<meta property="og:title" content="Il Traduttore — Italiano → Español + English">
+<meta property="og:description" content="Drop an Italian word, get it in both your languages. 1,000+ words, false-friend warnings, audio pronunciation.">
+<meta property="og:image" content="icon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
-  :root { --ink:#111111; --paper:#FFFFFF; --rosso:#CE2B37; --verde:#009246; --gray:#6E6A63; --hair:#E3E0DA; }
+  :root { --ink:#141414; --paper:#FAFAF8; --rosso:#CE2B37; --verde:#009246; --gray:#75716A; --hair:#E7E4DE; }
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:var(--paper); color:var(--ink); font-family:'Archivo',sans-serif; }
-  .wrap { max-width:880px; margin:0 auto; padding:28px 20px 60px; }
-  .mono { font-family:'Space Mono',monospace; font-size:11px; color:var(--gray); letter-spacing:.08em; }
-  .masthead { display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; }
-  h1 { font-weight:900; font-size:clamp(28px,5vw,44px); letter-spacing:-.02em; text-transform:uppercase; }
-  .tricolore { display:flex; height:6px; margin:12px 0 24px; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--paper); color:var(--ink); font-family:'Archivo',sans-serif; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:880px; margin:0 auto; padding:36px 22px 64px; }
+  .mono { font-family:'Space Mono',monospace; font-size:11px; color:var(--gray); letter-spacing:.1em; }
+
+  /* ── Masthead ── */
+  .masthead { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:8px; }
+  h1 { font-weight:900; font-size:clamp(34px,6vw,54px); letter-spacing:-.03em; text-transform:uppercase; line-height:.95; }
+  .tagline { font-family:'Space Mono',monospace; font-size:12px; color:var(--gray); margin-top:6px; letter-spacing:.06em; }
+  .tricolore { display:flex; height:8px; margin:16px 0 32px; }
   .tricolore div { flex:1; }
-  .label { display:block; font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--gray); margin-bottom:8px; }
+
+  /* ── Controls ── */
+  .label { display:block; font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--gray); margin-bottom:8px; }
   .row { display:flex; gap:10px; flex-wrap:wrap; }
-  input[type=text] { font-family:'Archivo',sans-serif; font-weight:700; border-radius:0; outline:none; background:var(--paper); color:var(--ink); }
-  #word { flex:1 1 240px; font-size:clamp(20px,3vw,26px); padding:12px 14px; border:3px solid var(--ink); }
-  #word:focus { border-color:var(--rosso); }
-  button { font-family:'Archivo',sans-serif; cursor:pointer; border-radius:0; }
-  .btn { font-weight:900; font-size:15px; text-transform:uppercase; letter-spacing:.06em; padding:12px 24px; border:3px solid var(--ink); background:var(--ink); color:var(--paper); }
-  .btn:disabled { background:var(--paper); color:var(--gray); cursor:default; }
-  .seg { font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:.08em; padding:8px 16px; border:2px solid var(--ink); background:var(--paper); color:var(--ink); }
-  .seg.active { background:var(--ink); color:var(--paper); }
-  .chip { font-family:'Space Mono',monospace; font-size:12px; padding:4px 10px; border:1.5px solid var(--ink); background:var(--paper); }
-  select { font-family:'Space Mono',monospace; font-size:12px; padding:6px 8px; border:2px solid var(--ink); background:var(--paper); border-radius:0; max-width:260px; }
-  .error { margin-top:20px; font-weight:700; color:var(--rosso); border-left:6px solid var(--rosso); padding-left:12px; }
-  .bigword { font-weight:900; font-size:clamp(44px,9vw,88px); line-height:1.02; letter-spacing:-.03em; overflow-wrap:anywhere; }
-  .rule { height:6px; background:var(--ink); margin-top:14px; }
+  input[type=text] { font-family:'Archivo',sans-serif; font-weight:700; border-radius:0; outline:none; background:#FFFFFF; color:var(--ink); }
+  #word { flex:1 1 240px; font-size:clamp(20px,3vw,26px); padding:14px 16px; border:3px solid var(--ink); box-shadow:6px 6px 0 var(--ink); transition:box-shadow .15s ease, transform .15s ease; }
+  #word:focus { border-color:var(--rosso); box-shadow:6px 6px 0 var(--rosso); }
+  button { font-family:'Archivo',sans-serif; cursor:pointer; border-radius:0; transition:transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease; }
+  .btn { font-weight:900; font-size:15px; text-transform:uppercase; letter-spacing:.08em; padding:14px 26px; border:3px solid var(--ink); background:var(--ink); color:#FFFFFF; box-shadow:6px 6px 0 rgba(20,20,20,.25); }
+  .btn:hover { background:var(--rosso); border-color:var(--rosso); }
+  .btn:active { transform:translate(3px,3px); box-shadow:2px 2px 0 rgba(20,20,20,.25); }
+  .btn:disabled { background:var(--paper); color:var(--gray); border-color:var(--gray); box-shadow:none; cursor:default; }
+  .seg { font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:.1em; padding:9px 18px; border:2px solid var(--ink); background:#FFFFFF; color:var(--ink); }
+  .seg:hover { background:var(--ink); color:#FFFFFF; }
+  .seg.active { background:var(--ink); color:#FFFFFF; }
+  .chip { font-family:'Space Mono',monospace; font-size:12px; padding:5px 12px; border:1.5px solid var(--ink); background:#FFFFFF; }
+  .chip:hover { background:var(--ink); color:#FFFFFF; }
+  select { font-family:'Space Mono',monospace; font-size:12px; padding:6px 8px; border:2px solid var(--ink); background:#FFFFFF; border-radius:0; max-width:260px; }
+
+  /* ── States ── */
+  .error { margin-top:22px; font-weight:700; color:var(--rosso); border-left:6px solid var(--rosso); padding:6px 0 6px 14px; }
+  .dots { display:inline-flex; gap:6px; margin-top:28px; }
+  .dots span { width:10px; height:10px; display:inline-block; animation:pulse 1s infinite ease-in-out; }
+  .dots span:nth-child(1){ background:var(--verde); }
+  .dots span:nth-child(2){ background:var(--ink); animation-delay:.15s; }
+  .dots span:nth-child(3){ background:var(--rosso); animation-delay:.3s; }
+  @keyframes pulse { 0%,100%{ transform:scale(.6); opacity:.4 } 50%{ transform:scale(1); opacity:1 } }
+
+  /* ── Empty state ── */
+  .empty { margin-top:44px; }
+  .empty p { font-size:16px; line-height:1.6; color:var(--gray); max-width:460px; margin-bottom:16px; }
+  .empty b { color:var(--ink); }
+
+  /* ── Result: the reveal ── */
+  #result { margin-top:40px; }
+  .reveal .r1 { animation:rise .45s cubic-bezier(.2,.7,.2,1) both; }
+  .reveal .r2 { animation:rise .45s .08s cubic-bezier(.2,.7,.2,1) both; }
+  .reveal .r3 { animation:rise .45s .16s cubic-bezier(.2,.7,.2,1) both; }
+  .reveal .r4 { animation:rise .45s .24s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion: reduce) { .reveal .r1,.reveal .r2,.reveal .r3,.reveal .r4 { animation:none; } .dots span { animation:none; } }
+
+  .bigword { font-weight:900; font-size:clamp(46px,10vw,100px); line-height:.98; letter-spacing:-.035em; overflow-wrap:anywhere; }
+  .rule { height:7px; background:var(--ink); margin-top:16px; }
   .langs { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); border-bottom:2px solid var(--ink); }
-  .lang { padding:18px 16px 22px 0; border-top:2px solid var(--ink); }
-  .tag { display:inline-block; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#fff; padding:3px 8px; margin-bottom:10px; }
-  .langval { font-weight:700; font-size:clamp(22px,4vw,32px); overflow-wrap:anywhere; }
-  .note { margin-top:18px; padding:14px 16px; border:3px solid var(--rosso); font-weight:700; font-size:15px; }
-  .notelabel { font-family:'Space Mono',monospace; font-size:11px; color:var(--rosso); display:block; margin-bottom:4px; letter-spacing:.1em; }
-  .ex { display:flex; gap:12px; align-items:center; padding:8px 0; border-bottom:1px solid var(--hair); font-size:15px; }
-  .speak { font-family:'Space Mono',monospace; border:2px solid var(--ink); background:var(--paper); padding:8px 14px; font-size:12px; letter-spacing:.08em; }
-  .speak.sm { padding:2px 8px; font-size:11px; border-width:1.5px; }
-  .box { border:2px solid var(--ink); padding:14px; margin-top:12px; display:grid; gap:10px; }
-  .box input { width:100%; font-size:15px; padding:8px 10px; border:2px solid var(--ink); font-weight:400; }
-  .pro { border:3px solid var(--verde); padding:16px; margin-top:20px; }
+  .lang { padding:20px 16px 24px 0; border-top:2px solid var(--ink); }
+  .tag { display:inline-block; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#fff; padding:4px 10px; margin-bottom:12px; }
+  .langval { font-weight:700; font-size:clamp(24px,4.5vw,36px); letter-spacing:-.01em; overflow-wrap:anywhere; }
+  .note { margin-top:22px; padding:16px 18px; border:3px solid var(--rosso); background:#FFFFFF; font-weight:700; font-size:15px; line-height:1.5; box-shadow:6px 6px 0 var(--rosso); }
+  .notelabel { font-family:'Space Mono',monospace; font-size:11px; color:var(--rosso); display:block; margin-bottom:6px; letter-spacing:.12em; }
+  .ex { display:flex; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--hair); font-size:15px; line-height:1.55; }
+  .speak { font-family:'Space Mono',monospace; border:2px solid var(--ink); background:#FFFFFF; padding:9px 16px; font-size:12px; letter-spacing:.1em; }
+  .speak:hover { background:var(--ink); color:#FFFFFF; }
+  .speak.sm { padding:3px 9px; font-size:11px; border-width:1.5px; }
+
+  /* ── Add word / pro ── */
+  .box { border:2px solid var(--ink); background:#FFFFFF; padding:16px; margin-top:12px; display:grid; gap:10px; }
+  .box input { width:100%; font-size:15px; padding:9px 11px; border:2px solid var(--ink); font-weight:400; background:var(--paper); }
+  .box input:focus { border-color:var(--rosso); }
+  .pro { border:3px solid var(--verde); background:#FFFFFF; padding:18px; margin-top:22px; box-shadow:6px 6px 0 var(--verde); }
   .hidden { display:none; }
-  footer { margin-top:48px; border-top:2px solid var(--ink); padding-top:12px; }
+  footer { margin-top:56px; border-top:2px solid var(--ink); padding-top:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
   a { color:var(--ink); }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline:3px solid var(--rosso); outline-offset:2px; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="wrap">
   <div class="masthead">
-    <h1>Il&nbsp;Traduttore</h1>
-    <span class="mono">IT → ES + EN</span>
+    <div>
+      <h1>Il&nbsp;Traduttore</h1>
+      <div class="tagline">L'italiano, nelle tue lingue · IT → ES + EN</div>
+    </div>
   </div>
   <div class="tricolore"><div style="background:var(--verde)"></div><div style="background:var(--ink)"></div><div style="background:var(--rosso)"></div></div>
 
@@ -82,22 +126,32 @@
 
   <div class="row" id="recents" style="margin-top:12px"></div>
 
+  <div class="empty" id="empty">
+    <p>Type any Italian word and get it in <b>both your languages</b> at once — with a warning when Italian is lying to your Spanish brain. Try one:</p>
+    <div class="row">
+      <button class="chip" onclick="translateWord('magari')">magari</button>
+      <button class="chip" onclick="translateWord('burro')">burro</button>
+      <button class="chip" onclick="translateWord('allora')">allora</button>
+      <button class="chip" onclick="translateWord('in bocca al lupo')">in bocca al lupo</button>
+    </div>
+  </div>
+
   <div id="error" class="error hidden"></div>
-  <div id="loading" class="mono hidden" style="margin-top:24px">Traducendo…</div>
+  <div id="loading" class="hidden"><span class="dots"><span></span><span></span><span></span></span></div>
 
   <section id="result" class="hidden" style="margin-top:36px">
-    <div class="mono" id="meta"></div>
-    <div class="row" style="align-items:flex-end;margin-top:4px">
+    <div class="mono r1" id="meta"></div>
+    <div class="row r1" style="align-items:flex-end;margin-top:4px">
       <div class="bigword" id="big"></div>
       <button class="speak" onclick="speakIt(state.result.italian)">► ASCOLTA</button>
     </div>
-    <div class="rule"></div>
-    <div class="langs">
+    <div class="rule r1"></div>
+    <div class="langs r2">
       <div class="lang"><span class="tag" style="background:var(--rosso)">Español</span><div class="langval" id="es"></div></div>
       <div class="lang"><span class="tag" style="background:var(--verde)">English</span><div class="langval" id="en"></div></div>
     </div>
-    <div class="note hidden" id="note"><span class="notelabel">OCCHIO! / WATCH OUT</span><span id="note-text"></span></div>
-    <div id="examples" class="hidden" style="margin-top:24px">
+    <div class="note hidden r3" id="note"><span class="notelabel">OCCHIO! / WATCH OUT</span><span id="note-text"></span></div>
+    <div id="examples" class="hidden r4" style="margin-top:24px">
       <span class="label">Esempio / Example</span>
       <div class="ex"><span class="mono" style="min-width:24px">IT</span><b style="flex:1" id="exit"></b><button class="speak sm" onclick="speakIt(state.result.exampleIt)">►</button></div>
       <div class="ex"><span class="mono" style="min-width:24px">ES</span><i style="flex:1" id="exes"></i></div>
@@ -134,7 +188,7 @@
     </div>
   </div>
 
-  <footer><span class="mono">Buono studio · Il Traduttore</span></footer>
+  <footer><span class="mono">Buono studio</span><span class="mono">Fatto a Miami con ♥ per l'italiano</span></footer>
 </div>
 
 <script>
@@ -257,6 +311,7 @@ async function translateWord(raw) {
   if (!word) return;
   $("error").classList.add("hidden");
   $("result").classList.add("hidden");
+  $("empty").classList.add("hidden");
   $("loading").classList.remove("hidden");
   $("go").disabled = true;
   try {
@@ -305,7 +360,10 @@ function render(r) {
   $("exes").textContent = r.exampleEs || "";
   $("exen").textContent = r.exampleEn || "";
   $("offline-badge").classList.toggle("hidden", !r.offline);
-  $("result").classList.remove("hidden");
+  const box = $("result");
+  box.classList.remove("hidden", "reveal");
+  void box.offsetWidth; // restart the reveal animation
+  box.classList.add("reveal");
 }
 
 function pushHistory(w) {
