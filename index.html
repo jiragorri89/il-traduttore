@@ -170,22 +170,6 @@
     </div>
   </div>
 
-  <!-- Add word -->
-  <div style="margin-top:28px">
-    <div class="row" style="align-items:center">
-      <button class="seg" id="add-toggle" onclick="toggleAdd()">+ Aggiungi parola</button>
-      <span class="mono" id="custom-count"></span>
-    </div>
-    <div class="box hidden" id="add-box">
-      <div><span class="label">Italiano *</span><input type="text" id="add-it"></div>
-      <div><span class="label">Español *</span><input type="text" id="add-es"></div>
-      <div><span class="label">English *</span><input type="text" id="add-en"></div>
-      <div><span class="label">Nota (optional)</span><input type="text" id="add-note"></div>
-      <div class="row" style="align-items:center">
-        <button class="btn" onclick="addWord()">Salva</button>
-        <span class="mono" id="save-msg"></span>
-      </div>
-    </div>
   </div>
 
   <footer><span class="mono">Buono studio</span><span class="mono">Fatto a Miami con ♥ per l'italiano</span></footer>
@@ -385,22 +369,10 @@ function saveCustom(key, entry) {
   renderCount();
 }
 function renderCount() {
+  const el = $("custom-count");
+  if (!el) return;
   const n = Object.keys(state.custom).length;
-  $("custom-count").textContent = n ? `${n} parole tue / your words` : "";
-}
-function toggleAdd() {
-  const box = $("add-box");
-  box.classList.toggle("hidden");
-  $("add-toggle").textContent = box.classList.contains("hidden") ? "+ Aggiungi parola" : "− Chiudi";
-}
-function addWord() {
-  const it = $("add-it").value.trim(), es = $("add-es").value.trim(),
-        en = $("add-en").value.trim(), note = $("add-note").value.trim();
-  if (!it || !es || !en) { $("save-msg").textContent = "Italiano, Español, English required."; return; }
-  saveCustom(it, { es, en, pos:"", g:"", note });
-  track("add-word");
-  $("save-msg").textContent = `"${it}" saved.`;
-  ["add-it","add-es","add-en","add-note"].forEach(id => $(id).value = "");
+  el.textContent = n ? `${n} parole tue / your words` : "";
 }
 
 // ── Init ──
